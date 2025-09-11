@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cricket Quiz Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f0f8ff;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1 { color: #0077cc; }
+    .question {
+      font-size: 18px;
+      margin: 20px 0;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      background: #0077cc;
+      color: white;
+    }
+    button:hover {
+      background: #005fa3;
+    }
+    #game, #result { display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏏 Cricket Quiz Game</h1>
+
+    <!-- Login Screen -->
+    <div id="login">
+      <p><b>Enter your details to start the game</b></p>
+      <input type="text" id="name" placeholder="Enter your name"><br><br>
+      <input type="number" id="age" placeholder="Enter your age"><br><br>
+      <button onclick="startGame()">Start Game</button>
+    </div>
+
+    <!-- Quiz Section -->
+    <div id="game">
+      <p id="player"></p>
+      <p class="question" id="question"></p>
+      <div id="answers"></div>
+      <p>Score: <span id="score">0</span></p>
+    </div>
+
+    <!-- Result Section -->
+    <div id="result">
+      <h2 id="finalMessage"></h2>
+      <p id="finalScore"></p>
+      <button onclick="location.reload()">Play Again</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { q: "Who is known as the 'Father of Cricket'?", options: ["WG Grace", "Don Bradman", "Kapil Dev", "Sachin Tendulkar"], answer: "WG Grace" },
+      { q: "Which country hosted the first ever Cricket World Cup (1975)?", options: ["Australia", "India", "England", "West Indies"], answer: "England" },
+      { q: "Who scored the first double century in ODI cricket?", options: ["Sachin Tendulkar", "Rohit Sharma", "Viv Richards", "Brian Lara"], answer: "Sachin Tendulkar" },
+      { q: "Which country won the 1983 Cricket World Cup?", options: ["West Indies", "Australia", "India", "Pakistan"], answer: "India" },
+      { q: "Who is known as the 'Don' of cricket?", options: ["Allan Border", "Don Bradman", "Steve Waugh", "Clive Lloyd"], answer: "Don Bradman" },
+      { q: "Which bowler has the most Test wickets?", options: ["Muttiah Muralitharan", "Shane Warne", "Anil Kumble", "James Anderson"], answer: "Muttiah Muralitharan" },
+      { q: "Which Indian cricketer is called 'The Wall'?", options: ["Rahul Dravid", "Sourav Ganguly", "Sunil Gavaskar", "Virat Kohli"], answer: "Rahul Dravid" },
+      { q: "When was the first official Test match played?", options: ["1877", "1882", "1890", "1900"], answer: "1877" },
+      { q: "Which country has won the most Cricket World Cups?", options: ["India", "Australia", "England", "West Indies"], answer: "Australia" },
+      { q: "Who hit 6 sixes in an over in the 2007 T20 World Cup?", options: ["Yuvraj Singh", "MS Dhoni", "Chris Gayle", "AB de Villiers"], answer: "Yuvraj Singh" }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+    let playerName = "";
+
+    function startGame() {
+      const name = document.getElementById("name").value.trim();
+      const age = document.getElementById("age").value;
+      if (name === "" || age === "") {
+        alert("Please enter your name and age to start.");
+        return;
+      }
+      playerName = name;
+      document.getElementById("login").style.display = "none";
+      document.getElementById("game").style.display = "block";
+      document.getElementById("player").textContent = "Player: " + name + " (Age: " + age + ")";
+      showQuestion();
+    }
+
+    function showQuestion() {
+      if (currentQ >= questions.length) {
+        endGame();
+        return;
+      }
+      const q = questions[currentQ];
+      document.getElementById("question").textContent = q.q;
+      const answersDiv = document.getElementById("answers");
+      answersDiv.innerHTML = "";
+      q.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(opt);
+        answersDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      if (selected === questions[currentQ].answer) {
+        score++;
+        document.getElementById("score").textContent = score;
+      }
+      currentQ++;
+      showQuestion();
+    }
+
+    function endGame() {
+      document.getElementById("game").style.display = "none";
+      document.getElementById("result").style.display = "block";
+      document.getElementById("finalScore").textContent = playerName + ", your score is " + score;
+      if (score >= 5) {
+        document.getElementById("finalMessage").textContent = "🎉 Congratulations, You Win!";
+      } else {
+        document.getElementById("finalMessage").textContent = "😢 Sorry, You Lost!";
+      }
+    }
+  </script>
+</body>
+</html>
