@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ultimate Cricket Quiz</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            background: linear-gradient(to bottom, #2c5364, #203a43, #0f2027);
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 700px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h1 {
+            color: #ffd700;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .cricket-icon {
+            display: inline-block;
+            animation: spin 2s infinite linear;
+            margin: 0 10px;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .login-input {
+            width: calc(100% - 20px);
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: #fff;
+            color: #333;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 25px;
+            margin: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 25px;
+            background: #28a745;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+            background: #218838;
+        }
+
+        #game, #result {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .question {
+            font-size: 22px;
+            margin: 25px 0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .answers-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .answer-btn {
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 8px;
+            background: #4a5d6b;
+            color: white;
+            transition: all 0.2s ease;
+        }
+
+        .answer-btn:hover {
+            background: #6c7a89;
+            transform: scale(1.05);
+        }
+
+        .correct {
+            background: #28a745 !important;
+            animation: pulse 0.5s;
+        }
+
+        .incorrect {
+            background: #dc3545 !important;
+            animation: shake 0.5s;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+
+        #feedback {
+            font-size: 1.2em;
+            margin: 15px 0;
+            font-weight: bold;
+            min-height: 25px;
+        }
+
+        .score-display {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #ffd700;
+        }
+
+        #finalMessage {
+            font-size: 2.2em;
+            color: #ffd700;
+            animation: bounceIn 1s;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+
+        #finalScore {
+            font-size: 1.8em;
+            margin-top: 10px;
+        }
+
+        .trophy-icon {
+            font-size: 3em;
+            color: #ffd700;
+            margin-bottom: 10px;
+            display: none;
+            animation: spin 2s infinite linear;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1><span class="cricket-icon">🏏</span> Ultimate Cricket Quiz <span class="cricket-icon">🏆</span></h1>
+
+        <div id="login">
+            <p><b>Enter your details to start the game</b></p>
+            <input type="text" id="name" placeholder="Enter your name" class="login-input"><br>
+            <input type="number" id="age" placeholder="Enter your age" class="login-input"><br><br>
+            <button onclick="startGame()">Start Game</button>
+        </div>
+
+        <div id="game">
+            <p id="player"></p>
+            <p class="question" id="question"></p>
+            <div id="answers" class="answers-grid"></div>
+            <div id="feedback"></div>
+            <p class="score-display">Score: <span id="score">0</span></p>
+        </div>
+
+        <div id="result">
+            <span id="trophy" class="trophy-icon">🏆</span>
+            <h2 id="finalMessage"></h2>
+            <p id="finalScore"></p>
+            <button onclick="location.reload()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { q: "Who is known as the 'Father of Cricket'?", options: ["WG Grace", "Don Bradman", "Kapil Dev", "Sachin Tendulkar"], answer: "WG Grace", fact: "WG Grace was an English amateur cricketer who was a key figure in the development of cricket and is known as the 'Father of Cricket'." },
+            { q: "Which country hosted the first ever Cricket World Cup (1975)?", options: ["Australia", "India", "England", "West Indies"], answer: "England", fact: "The inaugural Cricket World Cup was held in England and was won by the West Indies." },
+            { q: "Who scored the first double century in ODI cricket?", options: ["Sachin Tendulkar", "Rohit Sharma", "Viv Richards", "Brian Lara"], answer: "Sachin Tendulkar", fact: "Sachin Tendulkar achieved this feat against South Africa in 2010, scoring an unbeaten 200 runs." },
+            { q: "Which country won the 1983 Cricket World Cup?", options: ["West Indies", "Australia", "India", "Pakistan"], answer: "India", fact: "India, led by Kapil Dev, famously defeated the formidable West Indies team in the final at Lord's." },
+            { q: "Who is known as the 'Don' of cricket?", options: ["Allan Border", "Don Bradman", "Steve Waugh", "Clive Lloyd"], answer: "Don Bradman", fact: "Don Bradman's Test batting average of 99.94 is widely considered the greatest achievement by any sportsman in any major sport." },
+            { q: "Which bowler has the most Test wickets?", options: ["Muttiah Muralitharan", "Shane Warne", "Anil Kumble", "James Anderson"], answer: "Muttiah Muralitharan", fact: "Muttiah Muralitharan holds the record with 800 wickets in Test cricket." },
+            { q: "Which Indian cricketer is called 'The Wall'?", options: ["Rahul Dravid", "Sourav Ganguly", "Sunil Gavaskar", "Virat Kohli"], answer: "Rahul Dravid", fact: "Rahul Dravid's defensive batting technique and immense concentration earned him the nickname 'The Wall'." },
+            { q: "When was the first official Test match played?", options: ["1877", "1882", "1890", "1900"], answer: "1877", fact: "The first Test match was played between Australia and England in Melbourne from March 15 to March 19, 1877." },
+            { q: "Which country has won the most Cricket World Cups?", options: ["India", "Australia", "England", "West Indies"], answer: "Australia", fact: "Australia has won the Cricket World Cup a record six times." },
+            { q: "Who hit 6 sixes in an over in the 2007 T20 World Cup?", options: ["Yuvraj Singh", "MS Dhoni", "Chris Gayle", "AB de Villiers"], answer: "Yuvraj Singh", fact: "Yuvraj Singh's historic sixes came against Stuart Broad of England." }
+        ];
+
+        let currentQ = 0;
+        let score = 0;
+        let playerName = "";
+        let correctStreak = 0;
+        const basePoints = 10;
+        const streakBonus = 5;
+
+        function startGame() {
+            const name = document.getElementById("name").value.trim();
+            const age = document.getElementById("age").value;
+            if (name === "" || age === "") {
+                alert("Please enter your name and age to start.");
+                return;
+            }
+            playerName = name;
+            document.getElementById("login").style.display = "none";
+            const gameDiv = document.getElementById("game");
+            gameDiv.style.display = "block";
+            gameDiv.style.opacity = 1;
+            document.getElementById("player").textContent = `Welcome, ${name}! Let's play.`;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentQ >= questions.length) {
+                endGame();
+                return;
+            }
+            const q = questions[currentQ];
+            document.getElementById("question").textContent = q.q;
+            const answersDiv = document.getElementById("answers");
+            answersDiv.innerHTML = "";
+            document.getElementById("feedback").textContent = "";
+
+            q.options.forEach(opt => {
+                const btn = document.createElement("button");
+                btn.textContent = opt;
+                btn.className = "answer-btn";
+                btn.onclick = () => checkAnswer(opt, btn);
+                answersDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, button) {
+            const correctAnswer = questions[currentQ].answer;
+            const feedbackDiv = document.getElementById("feedback");
+
+            if (selected === correctAnswer) {
+                button.classList.add("correct");
+                correctStreak++;
+                score += basePoints + (correctStreak > 1 ? streakBonus * (correctStreak - 1) : 0);
+                feedbackDiv.innerHTML = `<span style="color: #28a745;">Correct!</span>`;
+                setTimeout(() => {
+                    feedbackDiv.innerHTML += `<br><b>Fact:</b> ${questions[currentQ].fact}`;
+                }, 500);
+            } else {
+                button.classList.add("incorrect");
+                correctStreak = 0;
+                feedbackDiv.innerHTML = `<span style="color: #dc3545;">Wrong!</span>`;
+                setTimeout(() => {
+                    feedbackDiv.innerHTML += `<br>The correct answer was: ${correctAnswer}`;
+                }, 500);
+            }
+
+            document.getElementById("score").textContent = score;
+            disableButtons();
+
+            setTimeout(() => {
+                currentQ++;
+                showQuestion();
+            }, 3000);
+        }
+
+        function disableButtons() {
+            const buttons = document.querySelectorAll('.answer-btn');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+            });
+        }
+
+        function endGame() {
+            const gameDiv = document.getElementById("game");
+            const resultDiv = document.getElementById("result");
+            gameDiv.style.opacity = 0;
+            
+            setTimeout(() => {
+                gameDiv.style.display = "none";
+                resultDiv.style.display = "block";
+                resultDiv.style.opacity = 1;
+            }, 500);
+
+            document.getElementById("finalScore").textContent = `${playerName}, your final score is ${score} points!`;
+            if (score >= 50) {
+                document.getElementById("finalMessage").textContent = "🎉 You are a Cricket Champion!";
+                document.getElementById("trophy").style.display = "block";
+            } else {
+                document.getElementById("finalMessage").textContent = "Better luck next time!";
+            }
+        }
+    </script>
+</body>
+</html>
