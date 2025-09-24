@@ -1,111 +1,182 @@
-<!--
-function spawnWave(){ wave++; const cols = 6; const rows = 2 + Math.min(3,Math.floor(wave/2)); const padding = 56; const startX = padding; const gapX = Math.max(50, (w - padding*2)/(cols-1)); const startY = 60;
-for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){
-const x = startX + c*gapX + Math.random()*6-3;
-const y = startY + r*48 + Math.random()*6-3;
-enemies.push(new Enemy(x,y, (r%3===0 && Math.random()>0.6)?1:0 ));
-}
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vihangi Apsara | Portfolio</title>
+  <style>
+    /* Reset & Fonts */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+    body {
+      background: #f8f9fa;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
+      color: #fff;
+      padding: 60px 20px;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+    nav {
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+    }
+    nav ul li {
+      margin: 0 15px;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    nav ul li a:hover {
+      color: #4e54c8;
+    }
+    section {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    section h2 {
+      color: #4e54c8;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+    .skills-list, .contact-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+    .skills-list div, .contact-list div {
+      background: #f4f4f4;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 500;
+    }
+    .projects-list ul {
+      list-style: disc;
+      margin-left: 20px;
+    }
+    .projects-list a {
+      color: #4e54c8;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .projects-list a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #4e54c8;
+      color: #fff;
+      margin-top: 40px;
+    }
+    footer a {
+      color: #fff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>Vihangi Apsara</h1>
+    <p>Student | Aspiring Businesswoman | Tech Enthusiast</p>
+  </header>
 
+  <!-- Navbar -->
+  <nav>
+    <ul>
+      <li><a href="#about">About Me</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-function explode(x,y,count=18){ for(let i=0;i<count;i++){ const a = Math.random()*Math.PI*2; const s = 60 + Math.random()*220; particles.push(new Particle(x,y,Math.cos(a)*s,Math.sin(a)*s,0.6+Math.random()*0.6)); } beep(200 + Math.random()*400,0.08,'square',0.1); }
+  <!-- About Me -->
+  <section id="about">
+    <h2>About Me</h2>
+    <p>Hello! I'm <strong>Vihangi Apsara</strong> from Sri Lanka. Currently, I am studying in South Korea at <strong>Dong-a University</strong>. 
+    I love learning new languages, especially Korean, and exploring technology. My dream is to live in France and become a successful businesswoman.</p>
+  </section>
 
+  <!-- Education -->
+  <section id="education">
+    <h2>Education</h2>
+    <p><strong>Dong-a University, South Korea</strong></p>
+    <p>Focused on <em>Programming, AI, and International Business</em>.</p>
+  </section>
 
-function update(dt){
-if(!running) return;
-player.update(dt);
-bullets.forEach(b=>b.update(dt));
-enemies.forEach(e=>e.update(dt));
-particles.forEach(p=>p.update(dt));
+  <!-- Projects -->
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="projects-list">
+      <ul>
+        <li><strong>Portfolio Website:</strong> This website is my personal portfolio.</li>
+        <li><strong>Python Projects:</strong> Simple apps and exercises from my "Introduction to Programming with Python" course.</li>
+        <li><strong>Old Game:</strong> <a href="https://apsara99.github.io/portfolio/cricket-game.html" target="_blank">Cricket Game</a></li>
+        <li><strong>Improved Game:</strong> <a href="https://apsara99.github.io/portfolio/Improved%20game.html" target="_blank">Improved Cricket Game</a></li>
+        <li><strong>Google Doc Prompt:</strong> <a href="https://docs.google.com/document/d/1Kld-pVTlcSXe8Uz09z2A3kvRPmooDu1ADROInn-Uwic/edit?tab=t.0" target="_blank">AI Game Improvement Prompt</a></li>
+      </ul>
+    </div>
+  </section>
 
+  <!-- Skills -->
+  <section id="skills">
+    <h2>Skills</h2>
+    <div class="skills-list">
+      <div>HTML / CSS (Web Development)</div>
+      <div>Python Programming</div>
+      <div>Problem-solving</div>
+      <div>Communication & Teamwork</div>
+      <div>Business & Leadership Interests</div>
+    </div>
+  </section>
 
-// remove off-screen bullets
-for(let i=bullets.length-1;i>=0;i--) if(bullets[i].y < -10) bullets.splice(i,1);
-// remove dead particles
-for(let i=particles.length-1;i>=0;i--) if(particles[i].life<=0) particles.splice(i,1);
+  <!-- Contact -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <div class="contact-list">
+      <div>Email: <br><a href="mailto:vihangiapsara18@gmail.com">vihangiapsara18@gmail.com</a></div>
+      <div>GitHub: <br><a href="https://github.com/Apsara99" target="_blank">github.com/Apsara99</a></div>
+    </div>
+  </section>
 
-
-// collisions bullets vs enemies
-for(let i=enemies.length-1;i>=0;i--){
-const en = enemies[i];
-for(let j=bullets.length-1;j>=0;j--){
-const b = bullets[j]; const dx = b.x-en.x; const dy = b.y-en.y; if(dx*dx+dy*dy < (en.r+ b.r)*(en.r+b.r)){
-bullets.splice(j,1);
-en.hp--;
-if(en.hp <=0){ explode(en.x,en.y,14); enemies.splice(i,1); score+= 10; scoreEl.textContent = score; if(score>high){ high = score; highEl.textContent = high; localStorage.setItem('ss_high', high); } }
-break;
-}
-}
-}
-
-
-// enemies hitting player
-for(let i=enemies.length-1;i>=0;i--){ const en = enemies[i]; const dx = en.x - player.x; const dy = en.y - player.y; if(dx*dx+dy*dy < (en.r + 14)*(en.r + 14)){
-explode(player.x,player.y,22); enemies.splice(i,1); loseLife(); break;
-}}
-
-
-// spawn logic
-waveTimer -= dt;
-if(enemies.length===0 && waveTimer<=0){ waveTimer = 1.2; spawnWave(); }
-}
-
-
-function loseLife(){ lives--; livesEl.textContent = lives; beep(120,0.2,'sawtooth',0.12); if(lives<=0){ endGame(); } }
-
-
-function draw(){
-// clear with gradient
-ctx.clearRect(0,0,w,h);
-const g = ctx.createLinearGradient(0,0,0,h); g.addColorStop(0,'rgba(20,30,60,0.12)'); g.addColorStop(1,'rgba(2,8,20,0.5)'); ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
-
-
-// stars
-ctx.fillStyle='rgba(255,255,255,0.06)'; for(let i=0;i<60;i++){ const x=(i*97)%w; const y=(i*53)%h; ctx.fillRect((x+ (Date.now()%2000)/10)%w, y, 1,1); }
-
-
-// draw entities
-player.draw(); bullets.forEach(b=>b.draw()); enemies.forEach(e=>e.draw()); particles.forEach(p=>p.draw());
-
-
-// HUD on canvas (optional)
-ctx.fillStyle='rgba(255,255,255,0.06)'; ctx.fillRect(8,8,160,56); ctx.fillStyle='#bfefff'; ctx.font='14px Arial'; ctx.fillText('Wave: '+wave, 14, 28); ctx.fillText('Enemies: '+enemies.length, 14, 48);
-
-
-if(!running){ ctx.fillStyle='rgba(0,0,0,0.5)'; ctx.fillRect(w/2-140,h/2-40,280,80); ctx.fillStyle='#fff'; ctx.textAlign='center'; ctx.font='20px Arial'; ctx.fillText('Paused — Click Start to play', w/2, h/2+6); ctx.textAlign='left'; }
-}
-
-
-function loop(ts){ if(!lastTime) lastTime = ts; delta = Math.min(0.05,(ts-lastTime)/1000); lastTime = ts; update(delta); draw(); requestAnimationFrame(loop); }
-requestAnimationFrame(loop);
-
-
-function startGame(){ score = 0; lives = 3; enemies.length = 0; bullets.length = 0; particles.length = 0; player.reset(); scoreEl.textContent = score; livesEl.textContent = lives; running = true; wave = 0; spawnWave(); }
-function endGame(){ running=false; if(score>high){ high=score; localStorage.setItem('ss_high',high); highEl.textContent = high; } }
-
-
-startBtn.addEventListener('click', ()=>{ if(!running) startGame(); else { startGame(); } });
-
-
-// allow tapping canvas to resume audio context (mobile)
-canvas.addEventListener('pointerdown', ()=>{ ensureAudio(); if(audioCtx && audioCtx.state==='suspended' && !muted) audioCtx.resume(); });
-
-
-// simple gamepad: map arrow keys and space
-// also allow holding space by key repeat
-
-
-// Touch/keyboard bridge: set keys from touchState
-setInterval(()=>{
-keys['ArrowLeft'] = keys['ArrowLeft'] || touchState.left;
-keys['ArrowRight'] = keys['ArrowRight'] || touchState.right;
-keys['Space'] = keys['Space'] || touchState.shoot;
-}, 16);
-
-
-// initial draw
-draw();
-})();
-</script>
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Vihangi Apsara | Built with ❤️ using HTML & CSS</p>
+  </footer>
 </body>
-</html>오후 
+</html>
